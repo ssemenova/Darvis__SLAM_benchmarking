@@ -1,13 +1,17 @@
 # Evaluation steps
 
 1. Move all the GT and generated trajectories as per following hierarchy:
-
+```
 <root_dir>/<dataset>/<sequence>/<gtfile> 
                                 <pipeline1 trajectory file>
                                 ... 
                                 ...
+
+```
+
 Example 
-results/kitti/00/GT.txt
+```
+results/kitti/00/00.txt
                 /ORBSLAM3.txt
                 /DARVIS_ORBSLAM3.txt
                 ...
@@ -15,6 +19,8 @@ results/euroc/mav0/data.csv
                 /ORBSLAM3.txt
                 /DARVIS_ORBSLAM3.txt
                 ...
+```
+
 2. Run evaluation script on the root dir:
     ```
         python evaluate_slam_results.py <root_dir> --results_dir=<target_results_dir>
