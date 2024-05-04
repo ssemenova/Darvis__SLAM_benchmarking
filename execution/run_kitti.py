@@ -7,7 +7,7 @@ import argparse
 
 def get_config_file(seq_num):
         
-        
+
     seq_int = int(seq_num)
 
     configs_list = ["KITTI00-02.yaml", "KITTI03.yaml", "KITTI04-12.yaml"]
@@ -32,7 +32,7 @@ def main():
     parser.add_argument('seq_path', type=str,  help='Path to the sequences folder containing all the seuqences. Eg. dataset/sequences/')
     parser.add_argument('executable_dir', type=str,  help='Path to the executable directory')
     
-    parser.add_argument('out_dir', type=str, default="results",  help='Path to the output directory')
+    parser.add_argument('--out_dir', type=str, default="results",  help='Path to the output directory')
     parser.add_argument('--dataset', type=str, default="kitti",  help='Name of the dataset')
 
     args = parser.parse_args()
