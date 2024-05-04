@@ -2,3 +2,4 @@
 *.pyc
 results_evo/*
 *.zip
+temp_download/

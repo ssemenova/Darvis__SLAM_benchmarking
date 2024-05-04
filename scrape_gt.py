@@ -124,9 +124,15 @@ def download_url(url, save_path, chunk_size=128):
 
     os.system("axel -n 10 -o "+save_path+" "+url)
 
-    os.system("unzip "+save_path+" -d "+save_path.split('.')[0])
+    os.system("unzip "+save_path+"  -d "+save_path.split('.')[0])
 
-    
+
+    save_path_dir= save_path.split('.')[0]
+    seq = os.listdir(save_path_dir)[0]
+
+    gt_file = os.path.join(save_path_dir, seq,"state_groundtruth_estimate0", "data.csv")
+
+    return gt_file
 
     # r = requests.get(url, stream=True)
 
@@ -145,18 +151,6 @@ def save_gt_data_euroc(hrefs, root_path="results", dataset="euroc"):
 
         #http://robotics.ethz.ch/~asl-datasets/ijrr_euroc_mav_dataset/machine_hall/MH_01_easy/MH_01_easy.zip
 
-        # temp directory to download the zip file
-        temp_dir = "temp_download"
-        if not os.path.exists(temp_dir):
-            os.makedirs(temp_dir)
-
-        # download the zip file
-        file_name = href.split('/')[-1]
-        download_url(href, os.path.join(temp_dir, file_name))
-
-        exit(0)
-
-
         seuqence = href.split('/')[-1].split('.')[0]
         save_path = os.path.join(root_path, dataset, seuqence, "data.csv")
 
@@ -164,33 +158,28 @@ def save_gt_data_euroc(hrefs, root_path="results", dataset="euroc"):
         if os.path.exists(save_path):
             print("File already exists")
             continue
-        
+
+
+        # temp directory to download the zip file
+        temp_dir = "temp_download"
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir)
+
         # download the zip file
-        driver.get(href)
+        file_name = href.split('/')[-1]
+        gt_file = download_url(href, os.path.join(temp_dir, file_name))
 
- 
-        response = driver.page_source
+        print(gt_file)
 
-        # get body of the response
-        soup = bs(response, 'html.parser')
-        body = soup.find('body').text
-
-        # response = requests.get(href)
-
-        # body = response
-
-        # #'https://cvg.cit.tum.de/rgbd/dataset/freiburg1/rgbd_dataset_freiburg1_xyz-groundtruth.txt'
-
+   
         
         if not os.path.exists(os.path.join(root_path, dataset, seuqence)):
             os.makedirs(os.path.join(root_path, dataset, seuqence))
         
 
-        # body = str(html.content) #.decode('utf-8')
-
-        with open(save_path, 'w') as f:
-            f.write(body)
-
+        os.system("cp "+gt_file+" "+save_path)
+        print("Command: cp "+gt_file+" "+save_path)
+        print("Copied file to "+save_path)
         # exit(0)
 
 def main():
