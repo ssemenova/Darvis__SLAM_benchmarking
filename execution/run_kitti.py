@@ -7,15 +7,17 @@ import argparse
 
 def get_config_file(seq_num):
         
+        
+    seq_int = int(seq_num)
 
     configs_list = ["KITTI00-02.yaml", "KITTI03.yaml", "KITTI04-12.yaml"]
-    if seq_num <=2:
+    if seq_int <=2:
         curr_config = configs_list[0]
-    elif seq_num ==3:
+    elif seq_int ==3:
         curr_config = configs_list[1]
     else:
         curr_config = configs_list[2]
-    print(f"{seq_num:02}", curr_config)    
+    print(f"{seq_int:02}", curr_config)    
     return curr_config
 
 def main():
@@ -54,9 +56,11 @@ def main():
 
     out_dir = os.path.join(out_dir , dataset)
 
-    for i in range(13):
+    sequence_list = os.listdir(seqs_path)
+
+    for curr_seq in sequence_list:
         
-        curr_seq = f"{i:02}"
+        # curr_seq = i #f"{i:02}"
         out_dir_seq = os.path.join(out_dir, curr_seq)
 
         if not os.path.exists(out_dir_seq):
@@ -68,7 +72,7 @@ def main():
             print(curr_seq, "results already exists, skipping!!")
             continue
 
-        curr_config = get_config_file(i)
+        curr_config = get_config_file(curr_seq)
 
         curr_config = os.path.join(exec_dir, curr_config)
 

@@ -52,9 +52,11 @@ def main():
 
     out_dir = os.path.join(out_dir , dataset)
 
-    for i in range(13):
+
+    sequence_list = os.listdir(seqs_path)
+
+    for curr_seq in sequence_list:
         
-        curr_seq = f"{i:02}"
         out_dir_seq = os.path.join(out_dir, curr_seq)
 
         if not os.path.exists(out_dir_seq):
@@ -66,7 +68,7 @@ def main():
             print(curr_seq, "results already exists, skipping!!")
             continue
 
-        curr_config = get_config_file(i)
+        curr_config = get_config_file(curr_seq)
 
         curr_config = os.path.join(exec_dir, curr_config)
 
