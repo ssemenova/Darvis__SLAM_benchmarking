@@ -1,0 +1,3 @@
+# ground truth trajectory
+# file: 'rgbd_dataset_freiburg1_large_checkerboard_calibration.bag'
+# timestamp tx ty tz qx qy qz qw
