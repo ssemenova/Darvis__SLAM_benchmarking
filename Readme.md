@@ -1,3 +1,24 @@
+# ORBSLAM3 execution scripts
+Three different exeuction scripts based on the dataset
+
+execution/run_<dataset>.py
+
+
+    parser.add_argument('vocab_file', type=str,  help='Path to the vocabulary file')
+    parser.add_argument('seq_path', type=str,  help='Path to the sequences folder containing all the seuqences. Eg. dataset/sequences/')
+    parser.add_argument('executable_dir', type=str,  help='Path to the executable directory')
+    
+    parser.add_argument('--out_dir', type=str, default="results",  help='Path to the output directory')
+    parser.add_argument('--dataset', type=str, default="kitti",  help='Name of the dataset')
+
+example use
+```
+    python execution/run_kitti.py <OS3_root>//Vocabulary/ORBvoc.txt  <kitti_dataset_root>/dataset/sequences/ <OS3_root>/Examples/Monocular/ --out_dir ./results  
+
+```
+
+
+
 # Evaluation steps
 
 1. Move all the GT and generated trajectories as per following hierarchy:
