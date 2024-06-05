@@ -6,8 +6,6 @@ import argparse
 
 
 def get_config_file(seq_num):
-        
-
     seq_int = int(seq_num)
 
     configs_list = ["KITTI00-02.yaml", "KITTI03.yaml", "KITTI04-12.yaml"]
@@ -17,13 +15,10 @@ def get_config_file(seq_num):
         curr_config = configs_list[1]
     else:
         curr_config = configs_list[2]
-    print(f"{seq_int:02}", curr_config)    
+    # print(f"{seq_int:02}", curr_config)    
     return curr_config
 
 def main():
-
-
-    
     #./mono_kitti ../../Vocabulary/ORBvoc.txt KITTI00-02.yaml  'dataset/sequences/01'
 
     parser = argparse.ArgumentParser(description='Run the ORBSLAM pipeline')
@@ -44,7 +39,7 @@ def main():
 
     exec_dir = os.path.abspath(exec_dir)
 
-    exec_app =  os.path.join(args.executable_dir ,"/mono_"+dataset) # "./mono_kitti"
+    exec_app =  os.path.join(exec_dir, "mono_"+dataset) # "./mono_kitti"
 
     vocab_file = args.vocab_file # "../../Vocabulary/ORBvoc.txt"
 
@@ -59,7 +54,6 @@ def main():
     sequence_list = os.listdir(seqs_path)
 
     for curr_seq in sequence_list:
-        
         # curr_seq = i #f"{i:02}"
         out_dir_seq = os.path.join(out_dir, curr_seq)
 
@@ -67,7 +61,6 @@ def main():
             os.makedirs(out_dir_seq)
 
         out_dir_file = os.path.join(out_dir_seq, "KeyFrameTrajectory_"+curr_seq+".txt")
-        print(out_dir_file)
         if os.path.exists(out_dir_file):
             print(curr_seq, "results already exists, skipping!!")
             continue
@@ -77,9 +70,14 @@ def main():
         curr_config = os.path.join(exec_dir, curr_config)
 
         seq_path_curr = "".join([seqs_path, curr_seq])
-        print(seq_path_curr)
-        command = " ".join([exec_app, vocab_file, curr_config, seq_path_curr])
-        print(command)
+        # print(seq_path_curr)
+        command = " ".join([exec_app, vocab_file, curr_config, seq_path_curr,  " >/dev/null 2>&1"])
+
+        print("RUNNING KITTI ", curr_seq)
+        print("... saving to: ", out_dir_file)
+
+        print("... command is: ", command)
+
         os.system(command)
 
         out_dir_file_cam = os.path.join(out_dir_seq, "CameraTrajectory_"+curr_seq+".txt")
@@ -90,6 +88,8 @@ def main():
 
         os.system("cd "+exec_dir+"; cp KeyFrameTrajectory_"+curr_seq+".txt "+out_dir_file)
         os.system("cd "+exec_dir+"; cp CameraTrajectory_"+curr_seq+".txt "+out_dir_file_cam)
+
+        print("============================")
 
 
 if __name__ =="__main__":

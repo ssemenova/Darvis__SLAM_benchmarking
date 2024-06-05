@@ -63,7 +63,6 @@ def main():
             os.makedirs(out_dir_seq)
 
         out_dir_file = os.path.join(out_dir_seq, "KeyFrameTrajectory_"+curr_seq+".txt")
-        print(out_dir_file)
         if os.path.exists(out_dir_file):
             print(curr_seq, "results already exists, skipping!!")
             continue
@@ -74,9 +73,13 @@ def main():
 
 
         seq_path_curr = "".join([seqs_path, curr_seq])
-        print(seq_path_curr)
-        command = " ".join([exec_app, vocab_file, curr_config, seq_path_curr])
-        print(command)
+        command = " ".join([exec_app, vocab_file, curr_config, seq_path_curr, " >/dev/null 2>&1"])
+
+        print("RUNNING TUM ", curr_seq)
+        print("... saving to: ", out_dir_file)
+
+        print("... command is: ", command)
+
         os.system(command)
 
         out_dir_file_cam = os.path.join(out_dir_seq, "CameraTrajectory_"+curr_seq+".txt")
@@ -88,6 +91,7 @@ def main():
         os.system("cd "+exec_dir+"; cp KeyFrameTrajectory_"+curr_seq+".txt "+out_dir_file)
         os.system("cd "+exec_dir+"; cp CameraTrajectory_"+curr_seq+".txt "+out_dir_file_cam)
 
+        print("============================")
 
 if __name__ =="__main__":
     main()
